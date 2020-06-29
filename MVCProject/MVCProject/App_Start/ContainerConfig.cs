@@ -13,9 +13,12 @@ namespace MVCProject
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            //builder.RegisterType<MemberDetailsRepository>()
-            //    .As<IMemberDetailsRepository>()
-            //    .InstancePerRequest();
+            builder.RegisterType<MemberDetailsRepository>()
+                .As<IMemberDetailsRepository>()
+                .InstancePerRequest();
+            builder.RegisterType<RelationshipRepository>()
+               .As<IRelationshipRepository>()
+               .InstancePerRequest();
             builder.RegisterType<UserDetails>()
                .As<IUserDetails>()
                .InstancePerRequest();

@@ -1,0 +1,60 @@
+﻿
+
+@model MVCProject.Models.RelationShipData
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <h3>HouseHold Relationships</h3> <p style="text-align:right;color:red"> *- Required Field</p>
+    <hr />
+
+    foreach (var data in Model.RelationshipsList.GroupBy(x => x.FromMemberId).Select(grp => grp.FirstOrDefault()))
+    {
+        if (Model.CurrentMemberId == data.FromMemberId)
+        {
+            <input type="submit" value="@data.FromMemberName" class="btn btn-default" style="background-color : lightgrey" name="But" formaction="@Url.Action("Home/"+@data.FromMemberId.ToString())" formmethod="post" />
+        }
+        else
+        {
+            <input type="submit" value="@data.FromMemberName" class="btn btn-default" id="@data.FromMemberId" formmethod="post" formaction="@Url.Action("Home/"+@data.FromMemberId.ToString())" name="@data.FromMemberId" />
+        }
+
+
+    }
+
+    @Html.Hidden("CurrentMemberId", Model.CurrentMemberId)
+
+    <br /> <br />
+    
+
+
+
+    for (int i = 0; i < Model.RelationshipsList.Count(); i++)
+    {
+        @Html.HiddenFor(model => Model.RelationshipsList[i].FromMemberName)
+        @Html.HiddenFor(model => Model.RelationshipsList[i].FromMemberId)
+        @Html.HiddenFor(model => @Model.RelationshipsList[i].Tomemberid)
+        if (Model.CurrentMemberId == Model.RelationshipsList[i].FromMemberId)
+        {
+
+            <text> <mark style="color:red;background-color:white">* </mark> Relationship to @Model.RelationshipsList[i].ToMemberName   : </text>
+            @Html.DropDownListFor(m => Model.RelationshipsList[i].Relationship, new SelectList(Model.RelationDropDown, "Id", "Name", Model.RelationshipsList[i].Relationship), "  -----Select List-----  ")
+            @Html.ValidationMessageFor(model => Model.RelationshipsList[i].Relationship)
+            <br />
+
+        }
+
+
+    }<br/>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <br /><br />
+
+    <div class="row">
+        <input type="button" class="btn btn-default" id="Save" value="Save & Exit" onclick="location.href='@Url.Action("Home","Search")'" />
+        <input type="button" class="btn btn-default" value="Back" onclick="location.href='@Url.Action("Home","HouseHold")'" />
+        <input type="submit" class="btn btn-default" value="Submit" formaction="@Url.Action("Submit")" formmethod="post" />
+    </div>
+}

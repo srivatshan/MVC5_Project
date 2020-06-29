@@ -1,0 +1,288 @@
+﻿@model MVCProject.Models.SearchDetails
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>User Search </h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+
+            <div class="col-md-2">
+                <div class="row">
+
+                    @Html.Label("First Name", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+
+                @Html.EditorFor(model => model.SearchModel.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+
+
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("Last Name", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+                @Html.EditorFor(model => model.SearchModel.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("Dob", htmlAttributes: new { @class = "col-md-20" })
+                </div>
+                @Html.EditorFor(model => model.SearchModel.DateOfBirth, new { htmlAttributes = new { @class = "form-control " } })
+
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    @Html.Label("Application Id", htmlAttributes: new { @class = "col-md-7" })
+
+                </div>
+                @Html.EditorFor(model => model.SearchModel.ApplicationId, new { htmlAttributes = new { @class = "form-control " } })
+
+
+            </div>
+
+            <div class="col-md-2">
+                <div class="row"> <br /></div>
+                <div>
+                    <input type="submit" class="btn btn-default" value="Search" formaction="@Url.Action("Home")" />
+                </div>
+
+
+            </div>
+        </div>
+        <hr />
+
+        @if (Model != null && Model.MembersList != null && Model.MembersList.Count > 0)
+        {
+            <div class="container">
+                <table id="people-table" class="table table-bordered table-striped ">
+
+                    <thead>
+
+
+                        <tr>
+                            <th id="Application Id">
+                                @Html.DisplayName("Application ID")
+                            </th>
+                            <th id="firstname">
+                                @Html.DisplayName("First Name")
+                            </th>
+                            <th id="ML">
+                                @Html.DisplayName("ML")
+                            </th>
+                            <th id="Last Name">
+                                @Html.DisplayName("Last Name")
+                            </th>
+                            <th id="Dob">
+                                @Html.DisplayName("DateOfBirth")
+                            </th>
+                            <th id="Gender">
+                                @Html.DisplayName("Gender")
+                            </th>
+                            <th id="Edit"></th>
+                            <th id="View"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.MembersList)
+                        {
+                            if (Model.MembersList.Count > 100)
+                            {
+                        <tr>
+                            <td style="column-span:all">
+                                <text>please refine your search criteria, more than 100 results are found </text>
+                            </td>
+                        </tr>
+                            }
+                            else
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApplicationID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ml)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td>
+
+                                    <input type="button" class="btn btn-default" value="Edit" onclick="location.href='@Url.Action("EditMember", "HouseHold")?ApplicationId=@item.ApplicationID&&MemberId=@item.MemberID' " />
+
+                                </td>
+                                <td>
+
+                                    <input type="button" class="btn btn-default" value="View" onclick="location.href='@Url.Action("ViewMember", "HouseHold")?ApplicationId=@item.ApplicationID&&MemberId=@item.MemberID' " />
+                                </td>
+
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+
+
+    </div>
+}
+
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/flatly/bootstrap.min.css">*@
+
+@*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>*@
+
+<script src="~/Scripts/jquery-3.3.1.slim.min.js"></script>
+
+    <link href="~/Content/smpSortableTable.css" rel="stylesheet" />
+<script src="~/Scripts/smpSortableTable.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#people-table').smpSortableTable(false, 5);
+        $('#btn_td').click(function () {
+            alert("ht");
+        });
+    });
+</script>
+@*<div class="Pager"></div>
+
+
+    <br />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/ASPSnippets_Pager.min.js"></script>
+    <script type="text/javascript">
+
+        var sortName = "";
+        var sortDirection = "ASC";
+        $(function () {
+            GetCustomers(1);
+        });
+        $("body").on("click", "#tblCustomers th a", function () {
+            sortName = $(this).html();
+            sortDirection = sortDirection == "ASC" ? "DESC" : "ASC";
+            GetCustomers(1);
+        });
+        $("body").on("click", ".Pager .page", function () {
+            GetCustomers(parseInt($(this).attr('page')));
+        });
+        function GetCustomers(pageIndex) {
+            $.ajax({
+                type: "POST",
+                url: "/Search/AjaxMethod",
+                data: '{pageIndex: ' + pageIndex + ', sortName: "' + sortName + '", sortDirection: "' + sortDirection + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        };
+        function OnSuccess(response) {
+            var model = response;
+            var row = $("#tblCustomers tr:last-child").removeAttr("style").clone(true);
+            $("#tblCustomers tr").not($("#tblCustomers tr:first-child")).remove();
+            $.each(model.Customers, function () {
+                var customer = this;
+                $("td", row).eq(0).html(customer.CustomerID);
+                $("td", row).eq(1).html(customer.ContactName);
+                $("td", row).eq(2).html(customer.City);
+                $("td", row).eq(3).html(customer.Country);
+                $("#tblCustomers").append(row);
+                row = $("#tblCustomers tr:last-child").clone(true);
+            });
+            $(".Pager").ASPSnippets_Pager({
+                ActiveCssClass: "current",
+                PagerCssClass: "pager",
+                PageIndex: model.PageIndex,
+                PageSize: model.PageSize,
+                RecordCount: model.RecordCount
+            });
+        };
+    </script>
+
+
+
+
+
+    <head>
+
+        <style type="text/css">
+            body {
+                font-family: Arial;
+                font-size: 10pt;
+            }
+
+            table {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                background-color: #fff;
+            }
+
+                table th {
+                    background-color: #B8DBFD;
+                }
+
+                table th, table td {
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                }
+
+                table, table table td {
+                    border: 0px solid #ccc;
+                }
+
+                    table th a, table th a:visited {
+                        color: #333;
+                        font-weight: bold;
+                    }
+
+            .Pager span {
+                text-align: center;
+                color: #333;
+                display: inline-block;
+                width: 20px;
+                background-color: #B8DBFD;
+                margin-right: 3px;
+                line-height: 150%;
+                border: 1px solid #B8DBFD;
+            }
+
+            .Pager a {
+                text-align: center;
+                display: inline-block;
+                width: 20px;
+                background-color: #ccc;
+                color: #333;
+                border: 1px solid #ccc;
+                margin-right: 3px;
+                line-height: 150%;
+                text-decoration: none;
+            }
+        </style>
+
+
+    </head>*@

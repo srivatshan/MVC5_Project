@@ -24,7 +24,17 @@ namespace MVCProject
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-        }
+                      "~/Content/site.css",
+                      "~/Content/smpSortableTable.css"));
+            //bundles.Add(new ScriptBundle("~/bundles/Pagination").Include(
+            //           "~/Scripts/ASPSnippets_Pager.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Pagination").Include(
+                      "~/Scripts/smpSortableTable.js",
+                      "~/Scripts/jquery-3.3.1.slim.min.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/PaginationStyle").Include(
+            //         ""));
+
+        }      
     }
 }

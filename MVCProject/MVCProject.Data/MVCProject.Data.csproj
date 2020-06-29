@@ -51,10 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\MemberDetails.cs" />
+    <Compile Include="Models\RelationshipDetails.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Interface\IMemberDetailsRepository.cs" />
+    <Compile Include="Repository\Interface\IRelationshipRepository.cs" />
     <Compile Include="Repository\Interface\IUserDetails.cs" />
     <Compile Include="Repository\Repo\ApplicationDBContext.cs" />
+    <Compile Include="Repository\Repo\MemberDetailsRepository.cs" />
+    <Compile Include="Repository\Repo\RelationshipRepository.cs" />
     <Compile Include="Repository\Repo\UserDetails.cs" />
   </ItemGroup>
   <ItemGroup />

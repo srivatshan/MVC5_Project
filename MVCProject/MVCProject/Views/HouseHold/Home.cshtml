@@ -1,0 +1,142 @@
+﻿@model MVCProject.Models.HouseHoldModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>HouseHoldMemberModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+
+            <div class="col-md-2">
+                <div class="row">
+                  
+                    @Html.Label("* First Name", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+                
+                @Html.EditorFor(model => model.HouseHoldMemberModel.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.FirstName, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("ML", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+                @Html.EditorFor(model => model.HouseHoldMemberModel.Ml, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.Ml, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("* Last Name", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+                @Html.EditorFor(model => model.HouseHoldMemberModel.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.LastName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("* Suffix", htmlAttributes: new { @class = "col-md-7" })
+                </div>
+
+                @Html.EnumDropDownListFor(model => model.HouseHoldMemberModel.Suffix, "--Select--", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.Suffix, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("* DateOfBirth (mm/dd/yyyy)", htmlAttributes: new { @class = "col-md-20" })
+                </div>
+                @Html.EditorFor(model => model.HouseHoldMemberModel.DateOfBirth, new { htmlAttributes = new { @class = "form-control " } })
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.DateOfBirth, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    @Html.Label("* Gender", htmlAttributes: new { @class = "col-md-7" })
+
+                </div>
+
+                @Html.RadioButtonFor(model => model.HouseHoldMemberModel.Gender, "Male") Male @Html.RadioButtonFor(model => model.HouseHoldMemberModel.Gender, "Female") Female
+                @Html.ValidationMessageFor(model => model.HouseHoldMemberModel.Gender, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <hr />
+        @if (Model != null && Model.MembersList != null && Model.MembersList.Count > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseHoldMemberModel.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseHoldMemberModel.Ml)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseHoldMemberModel.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseHoldMemberModel.DateOfBirth)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseHoldMemberModel.Gender)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.MembersList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ml)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+                        <td>
+
+                            @Html.ActionLink("Delete Member", "DeleteMember", new { Id = item.MemberID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+        <div class="row">
+            <input type="submit" class="btn btn-default" id="Addmember" value="Add Member" formaction="@Url.Action("AddMember")" />
+        </div>
+
+        <div class="row">
+            <input type="submit" class="btn btn-default" value="Save & Exit" formaction="@Url.Action("Save")" formmethod="post" style="align-items:flex-start"/>
+
+            <input type="button" class="btn btn-default" value="Back" onclick="location.href='@Url.Action("Index","Home")'"   style="align-items:flex-end"/>
+            <input type="submit" class="btn btn-default" value="Next" formaction="@Url.Action("Next")"  formmethod="post" style="align-items:flex-end"/>
+        </div>
+
+
+
+
+
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+}
+

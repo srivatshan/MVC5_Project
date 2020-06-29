@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MVCProject.Data.Repository.Repo;
+using MVCProject.Filters;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +20,8 @@ namespace MVCProject
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ContainerConfig.RegisterContainer();
+            
+            Database.SetInitializer(new UserDbContextSeeder());
         }
     }
 }
